@@ -8,7 +8,7 @@ const Sub: NextPage = () => {
       <h1>/pages/sub/index.tsx</h1>
       <ul>
         <li>
-          <Link href="/">/pages/index.tsx</Link>
+          <Link href={"/"}>/pages/index.tsx</Link>
         </li>
       </ul>
     </div>

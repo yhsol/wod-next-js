@@ -10,19 +10,22 @@ const Home: NextPage = () => {
       <h1>/pages/index.tsx</h1>
       <ul>
         <li>
-          <Link href="/sub">/pages/sub/index.tsx</Link>
+          <Link href={"/sub"}>/pages/sub/index.tsx</Link>
         </li>
         <li>
-          <Link href="/sub/about">/pages/sub/about.tsx</Link>
+          <Link href={"/sub/about"}>/pages/sub/about.tsx</Link>
         </li>
         <li>
-          <Link href="/sub/1">/pages/sub/[pid].tsx - pid is 1</Link>
+          <Link href={"/sub/1"}>/pages/sub/[pid].tsx - pid is 1</Link>
         </li>
         <li>
-          <Link href="/sub/2">/pages/sub/[pid].tsx - pid is 2</Link>
+          <Link href={"/sub/2"}>/pages/sub/[pid].tsx - pid is 2</Link>
         </li>
         <li>
-          <Link href="/sub/fetch">/pages/sub/fetch.tsx</Link>
+          <Link href={"/sub/fetch"}>/pages/sub/fetch.tsx</Link>
+        </li>
+        <li>
+          <Link href={"/sub/news"}>/pages/sub/news.tsx</Link>
         </li>
       </ul>
     </div>

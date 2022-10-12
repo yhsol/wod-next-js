@@ -1,15 +1,26 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Fetch = () => {
   const [user, setUser] = useState<{ name: string }>();
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hello`)
-      .then((type) => type.json())
-      .then((res) => setUser(res));
+    (async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hello`);
+      const user = await res.json();
+      setUser(user);
+    })();
   });
 
-  return <div>User: {user?.name}</div>;
+  return (
+    <div>
+      <h1>/pages/sub/fetch.tsx</h1>
+      <div>User: {user?.name}</div>
+      <div>
+        <Link href={"/"}>/pages/index.tsx</Link>
+      </div>
+    </div>
+  );
 };
 
 export default Fetch;
