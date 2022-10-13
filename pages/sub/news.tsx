@@ -26,7 +26,11 @@ const News = ({ posts }: Props) => {
         {posts.map((post, index) => {
           return (
             <div key={post.id}>
-              {index + 1}: {post.title}
+              <Link href={`/sub/post/${post.id}`}>
+                <span>
+                  {index + 1}: {post.title}
+                </span>
+              </Link>
             </div>
           );
         })}
