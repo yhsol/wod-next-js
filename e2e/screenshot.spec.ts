@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("should navigate to the about page", async ({ page }) => {
+test("photo page test", async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
 
   await page.goto("/");
