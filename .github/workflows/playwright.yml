@@ -10,6 +10,13 @@ on:
         options:
           - "false"
           - "true"
+      upload_artifact:
+        required: true
+        type: choice
+        default: "false"
+        options:
+          - "false"
+          - "true"
 
   # 현재는 일단 직접 실행
   # push:
@@ -38,7 +45,7 @@ jobs:
         run: npx playwright test
 
       - uses: actions/upload-artifact@v3
-        if: failure()
+        if: failure() || ${{ github.event.inputs.upload_artifact == 'true' }}
         with:
           name: playwright-report
           path: playwright-report/
