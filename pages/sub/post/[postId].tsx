@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { loadPosts } from "../../lib/load-posts";
+import { loadPosts } from "../../../lib/load-posts";
 import { News } from "../news";
 
 const Post = ({ post }: { post: News }) => {

@@ -4,7 +4,7 @@ import React from "react";
 const About = () => {
   return (
     <div>
-      <h1>/pages/sub/about.tsx</h1>
+      <h1>About Page</h1>
       <ul>
         <li>
           <Link href={"/"}>/pages/index.tsx</Link>

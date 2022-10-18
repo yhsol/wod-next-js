@@ -1,4 +1,4 @@
-import type { News } from "../sub/news";
+import type { News } from "../pages/sub/news";
 
 export async function loadPosts() {
   const res = await fetch("https://api.hnpwa.com/v0/news/1.json");

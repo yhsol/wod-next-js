@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadPosts } from "../lib/load-posts";
+import { loadPosts } from "../../lib/load-posts";
 
 export type News = {
   id: number;
