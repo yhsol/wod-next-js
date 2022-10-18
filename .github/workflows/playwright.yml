@@ -46,6 +46,7 @@ jobs:
         if: ${{ github.event.inputs.update_snaphosts == 'true' }}
         run: npx playwright test --update-snapshots --reporter=list
       - name: Run Playwright tests
+        if: ${{ github.event.inputs.update_snaphosts == 'false' }}
         run: npx playwright test
 
       - uses: actions/upload-artifact@v3
