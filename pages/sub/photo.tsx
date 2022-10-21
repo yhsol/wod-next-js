@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 const Photo = () => {
   return (
@@ -13,9 +12,6 @@ const Photo = () => {
         width={500}
         height={500}
       />
-      <li>
-        <Link href={"/photo"}>Photo</Link>
-      </li>
     </div>
   );
 };

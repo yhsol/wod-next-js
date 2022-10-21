@@ -7,7 +7,7 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   return (
     <div>
-      <h1>/pages/index.tsx</h1>
+      <h1 className="text-3xl font-bold underline">/pages/index.tsx</h1>
       <ul>
         <li>
           <Link href={"/sub/about"}>About</Link>
