@@ -20,3 +20,13 @@
   - 디테일 페이지는 각 페이지를 빌드 타임에 pre-render 를 하기 원함.
     - getStaticPaths 사용.
     - getStaticProps 를 사용해서 note 를 만들어서 props 로 전달.
+
+## Authentication
+
+- supabase 에서 제공
+  - [github](https://supabase.com/docs/guides/auth/auth-github)
+    - [Overview](https://supabase.com/docs/guides/auth/auth-github#overview)
+      - Create and configure a GitHub OAuth App on GitHub
+      - Add your GitHub OAuth keys to your Supabase Project
+      - Add the login code to your Supabase JS Client App
+    - github 에 OAuth keys 추가. 여기서 콜백 api 는 supabase project url 에 `/auth/v1/callback` 를 붙여주면 됨.
