@@ -6,11 +6,12 @@ import { supabase } from "../utils/supabase";
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<User | null>(null);
-  console.log("🚀 turbo : globalThis: ", globalThis.crypto);
 
   useEffect(() => {
     (async () => {
       const user = await supabase.auth.getUser();
+      console.log("🚀 turbo : user", user.data.user);
+
       setUser(user.data.user);
     })();
   }, []);
@@ -27,7 +28,13 @@ const Home: NextPage = () => {
           <Link href={"/sub/photo"}>Photo</Link>
         </li>
         <li>
-          <Link href={"/sub/supabase-note"}>Supaabse Note</Link>
+          <Link href={"/sub/supabase-note"}>Supabase Note</Link>
+        </li>
+        <li>
+          <Link href={"/auth/login"}>Login</Link>
+        </li>
+        <li>
+          <Link href={"/auth/logout"}>Logout</Link>
         </li>
       </ul>
     </div>
