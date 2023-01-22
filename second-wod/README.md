@@ -1,5 +1,11 @@
 # SecondWod
 
+## How to run
+
+```
+yarn nx run site:serve
+```
+
 ## Note
 
 ### Create a Next.js Web Application with Nx
@@ -54,5 +60,65 @@ getStaticProps
 
 getStaticPaths
 
+- juri.dev/articles/nextjs-with-nx 와 같은 경우.
+
+  - juri.dev/articles/[slug]
+
 - pre-render build time
+
+- getStaticPaths 는 객체를 리턴함.
+- 객체는 paths, fallback 등으로 구성됨.
 - fallback: pre-render 된 페이지를 못찾았을 때를 대비함.
+
+### Setup Next.js with Tailwind in a Nx Workspace
+
+- tailwind 사용
+- `yarn add tailwindcss postcss autoprefixer`
+- `npx tailwindcss init -p` 를 통해 설정파일 제너리이트.
+
+  - 특정 프로젝트에 생성하기 위해서 `/apps/site` 안에서 생성.
+  - postcss.config.js
+
+    ```
+    const {join} = require('path')
+
+    module.exports = {
+      plugins: {
+        tailwindcss: {
+          config: join(__dirname, 'tailwind.config.js'),
+        },
+        autoprefixer: {},
+      },
+    }
+    ```
+
+  - tailwind.config.js
+
+    ```
+    const {join} = require('path')
+
+    /** @type {import('tailwindcss').Config} */
+    module.exports = {
+      content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+      ],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+      purge:[
+        join(__dirname, 'pages/**/*.{js,jsx,ts,tsx}'),
+      ]
+    }
+    ```
+
+### Configure Tailwind purging in a Nx Workspace
+
+- purge 는 최적화를 위해 사용.
+
+### Configure Tailwind in a Nx Monorepo With Potentially Multiple Apps and Libs
+
+- tailwind plugin 사용
+- 모노레포에서 특정 프로젝트 ('site' 같이) 에서만 사용하고 싶은 테일윈드 설정이 있을 수 있고, 글로벌로 다른 프로젝트와도 공통으로 사용됐으면 하는 설정이 있을 수 있음. 이걸 위해 tailwind-workspace-preset.js 생성.
+- tailwind-workspace-preset 에 필요한 설정을 하고, 각 프로젝트 내의 tailwind.config.js 에 preset 으로 설정

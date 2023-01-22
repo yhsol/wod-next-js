@@ -9,7 +9,7 @@ export interface ArticleProps extends ParsedUrlQuery {
 export function Article(props: ArticleProps) {
   return (
     <div>
-      <h1>Visiting, {props.slug}</h1>
+      <h1 className="text-3xl font-bold underline">Visiting, {props.slug}</h1>
     </div>
   );
 }
