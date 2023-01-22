@@ -2,7 +2,6 @@ const { join } = require('path');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: 'jit',
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
@@ -11,5 +10,6 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  purge: [join(__dirname, 'pages/**/*.{js,jsx,ts,tsx}')],
   presets: [require('../../tailwind-workspace-preset')],
 };

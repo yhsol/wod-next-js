@@ -122,3 +122,26 @@ getStaticPaths
 - tailwind plugin 사용
 - 모노레포에서 특정 프로젝트 ('site' 같이) 에서만 사용하고 싶은 테일윈드 설정이 있을 수 있고, 글로벌로 다른 프로젝트와도 공통으로 사용됐으면 하는 설정이 있을 수 있음. 이걸 위해 tailwind-workspace-preset.js 생성.
 - tailwind-workspace-preset 에 필요한 설정을 하고, 각 프로젝트 내의 tailwind.config.js 에 preset 으로 설정
+
+### Use getStaticPaths to Retrieve a List of Markdown Files to Render With Next.js
+
+root 에 \_articles 폴더를 만들고 그 안에 markdown 파일을 넣음.
+apps/site/pages/articles/[slug].tsx 에 있는 getStaticPaths 에서 \_articles 폴더를 읽어서 slug 를 만들어서 리턴함.
+path 는 join 과 process.cwd 를 사용해서 찾음.
+
+```
+const POSTS_PATH = join(process.cwd(), '_articles)
+```
+
+getStaticPaths 에서 slug 를 만들어서 보내야함. 파일 읽고 거기로 접근하게 할 거니까.
+그러면 파일 제목을 slug 로 사용할 수 있게 포매팅.
+
+```ts
+const paths = readdirSync(POSTS_PATH)
+  .map((path) => path.replace(/\.mdx?$/, ''))
+  .map((slug) => ({
+    params: { slug },
+  }));
+```
+
+저 path 를 getStaticPaths 에서 리턴하고, getStaticProps 에서는 slug 를 받아서 해당 파일을 읽어서 props 로 보냄.
