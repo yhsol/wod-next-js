@@ -246,3 +246,28 @@ And it's better to use meaningful variable names that reflect their intended use
 mdx 는 markdown 을 확장한 것. markdown 에 code 를 추가할 수 있도록 함.
 
 기존의 md 파일을 mdx 로 변경
+
+markdown.spec.ts 테스트 깨지던거는 renderMarkdown 내부에서 쓰이는 next-mdx-remote/serialize 때문.
+이걸 mock 해줘야 함.
+테스트는 제너레이트 사용해서 변경함. https://www.refraction.dev/app 미쳤다.
+
+mdx 도 놀라움. 그냥 코드가 임베딩 됨.
+MDXRemote 에 컴포넌트를 지정할 수 있어서 lib 에 Youtube 컴포넌트를 만들고 이걸 넣어주면 됨.
+
+### Use React Components for Native HTML Tags with MDX and Next.js
+
+유튜브 임베드 말고도 또 인터레스팅한 기능이 있음.
+
+링크가 있다고 가정해보자.
+
+mdx 에 [geeknews](https://news.hada.io/) 이렇게 추가하면
+
+페이지에 <p><a href="https://news.hada.io/">geeknews</a></p> 이런식으로 들어가있음.
+
+nx generate component react -> custom-link 컴포넌트 생성.
+
+CustomLink 컴포넌트에 a, href 등의 props 를 받아서 next/link 로 처리.
+
+slug 컴포넌트에서 사용할 때, MDXRemote 로 주는 컴포넌트에 a 프로퍼티에 CustomLink 를 넣어주면 됨.
+그러면 a 를 CustomLink 가 override 하게 됨.
+Native HTML Tags 를 커스텀 컴포넌트로 override 할 수 있는것.
