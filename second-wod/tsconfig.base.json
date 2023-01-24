@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@second-wod/markdown": ["libs/markdown/src/index.ts"],
+      "@second-wod/shared/mdx-elements": [
+        "libs/shared/mdx-elements/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

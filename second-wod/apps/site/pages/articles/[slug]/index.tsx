@@ -2,36 +2,69 @@ import { readdirSync } from 'fs';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { join } from 'path';
 import { ParsedUrlQuery } from 'querystring';
+import {
+  getParsedFileContentBySlug,
+  renderMarkdown,
+} from '@second-wod/markdown';
+import { MDXRemote } from 'next-mdx-remote';
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { Youtube } from '@second-wod/shared/mdx-elements';
 
 // extends ParsedUrlQuery 를 해줘야 함.
-export interface ArticleProps extends ParsedUrlQuery {
+// why? => ParsedUrlQuery is a built-in Next.js type that represents the query string of a URL parsed into an object. It's used here because the slug property is expected to come from the query string of the URL.
+export interface ArticlePageProps extends ParsedUrlQuery {
   slug: string;
+}
+
+const mdxElements = {
+  Youtube,
+};
+
+interface ArticleProps {
+  frontMatter: any;
+  html: MDXRemoteSerializeResult<
+    Record<string, unknown>,
+    Record<string, string>
+  >;
 }
 
 const POSTS_PATH = join(process.cwd(), '_articles');
 
-export function Article(props: ArticleProps) {
+export function Article({ frontMatter, html }: ArticleProps) {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Visiting, {props.slug}</h1>
+    <div className="m-6">
+      <article className="prose porse-lg">
+        <h1>{frontMatter.title}</h1>
+        <div>by {frontMatter.author.name}</div>
+      </article>
+
+      <hr />
+
+      <MDXRemote {...html} components={mdxElements} />
     </div>
   );
 }
 
-// getStaticProps
 export const getStaticProps: GetStaticProps<ArticleProps> = async ({
   params,
 }: {
-  params: ArticleProps;
+  params: ArticlePageProps;
 }) => {
+  // 1. parse the content of our markdown and separate it into frontmatter and content
+  const { frontMatter, content } = getParsedFileContentBySlug(
+    params.slug,
+    POSTS_PATH
+  );
+
+  // 2. convert markdown content to html
+  const html = await renderMarkdown(content);
+
   return {
-    props: {
-      slug: params.slug,
-    },
+    props: { frontMatter, html },
   };
 };
 
-export const getStaticPaths: GetStaticPaths<ArticleProps> = async () => {
+export const getStaticPaths: GetStaticPaths<ArticlePageProps> = async () => {
   // _articles 폴더의 파일을 읽고 파일 제목을 slug 로 사용.
   const paths = readdirSync(POSTS_PATH)
     .map((path) => path.replace(/\.mdx?$/, ''))

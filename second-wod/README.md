@@ -145,3 +145,104 @@ const paths = readdirSync(POSTS_PATH)
 ```
 
 저 path 를 getStaticPaths 에서 리턴하고, getStaticProps 에서는 slug 를 받아서 해당 파일을 읽어서 props 로 보냄.
+
+### Generate an Nx Library to Implement our Markdown Rendering for our Next.js App
+
+- markdown 을 파싱해서 컨텐츠로 뿌려야함.
+- 이렇게 하려면 파싱 로직을 어디에 둘까.
+- 컴포넌트에 둘 수도 있지만 좋은 생각은 아님.
+- 모노레포 시나리오에서 apps 안에 여러 앱이 있을 수 있음.
+- 그래서 이런 로직의 경우 libs 폴더에 두는게 좋음.
+- libs 에 최대한 로직을 두고, 앱은 컨테이너로서 libs 의 로직을 link 하는 역할.
+- nx console 에서 library 생성.
+- nx generate @nrwl/workspace:library
+- 로직 작성
+- 파싱 로직에서 필요한 것.
+  1. parse the content of our markdown and separate it into frontmatter and content
+  2. convert markdown content to html
+- library 생성하면 tsconfig.base.json 에 paths 에 path 가 추가되어 있는 걸 볼 수 있음.
+- 이 path 를 사용해서 import 할 수 있음.
+
+```
+    "paths": {
+      "@second-wod/markdown": ["libs/markdown/src/index.ts"]
+    }
+```
+
+이런 path 가 생겼다면,
+
+```
+import {
+  getParsedFileContentBySlug,
+  renderMarkdown,
+} from '@second-wod/markdown';
+```
+
+이렇게 쓸 수 있음.
+
+### Parse a Markdown Document With gray-matter
+
+파싱 로직먼저 구현
+파싱을 위해 라이브러리 사용.
+gray-matter
+
+### Render Markdown With next-mdx-remote in our Next.js Page Component
+
+---
+
+chatGPT
+
+---
+
+```
+interface ArticleProps extends ParsedUrlQuery {
+  slug: string;
+}
+```
+
+in this part, why extends ParsedUrlQuery? it should be? and Article, getStaticProps is used Props, and getStaticPaths is used ArticleProps. is that ok that difference? and how concise that?
+
+---
+
+interface ArticleProps extends ParsedUrlQuery means that the ArticleProps interface is based on the ParsedUrlQuery interface and includes an additional property slug.
+ParsedUrlQuery is a built-in Next.js type that represents the query string of a URL parsed into an object. It's used here because the slug property is expected to come from the query string of the URL.
+
+Regarding the difference in types used by getStaticProps and getStaticPaths, it is valid to have different types for different functions. getStaticProps is used to fetch data for a specific page based on the params passed to it, so it needs the Props type to know what data to return. On the other hand, getStaticPaths is used to generate the possible paths for the application and it needs the ArticleProps type to know what the shape of the params object should be.
+
+As for conciseness, the refactored code is more concise because it uses modern JavaScript features such as destructuring, arrow functions, and concise object property notation. It also removes unnecessary comments and imports, and inlines the functional component. This makes the code more readable and easier to understand.
+
+---
+
+thanks. can you recommend better name of ArticleProps and Props?
+
+---
+
+The names ArticleProps and Props are not bad, but they can be made more clear and descriptive.
+ArticleProps represents the props for the Article component and it is used to fetch the data for the page, so a more descriptive name could be ArticlePageProps
+Props represents the props for the Article component, so a more descriptive name could be ArticleProps
+
+So the final refactor could look like this :
+
+```ts
+interface ArticlePageProps extends ParsedUrlQuery {
+  slug: string;
+}
+interface ArticleProps {
+  frontMatter: any;
+  html: MDXRemoteSerializeResult<
+    Record<string, unknown>,
+    Record<string, string>
+  >;
+}
+```
+
+And it's better to use meaningful variable names that reflect their intended use and context, that make it easier to understand the purpose of the code and make it more maintainable.
+
+### Embed React Components in our Markdown with MDX in a Next.js App
+
+컨텐츠를 좀 더 rich 하게 만들어보자.
+컨텐츠 중간에 ${$ youtube something... $} 같은거.
+이걸 위해서 mdx 를 사용할 것.
+mdx 는 markdown 을 확장한 것. markdown 에 code 를 추가할 수 있도록 함.
+
+기존의 md 파일을 mdx 로 변경
