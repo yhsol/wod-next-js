@@ -271,3 +271,27 @@ CustomLink 컴포넌트에 a, href 등의 props 를 받아서 next/link 로 처�
 slug 컴포넌트에서 사용할 때, MDXRemote 로 주는 컴포넌트에 a 프로퍼티에 CustomLink 를 넣어주면 됨.
 그러면 a 를 CustomLink 가 override 하게 됨.
 Native HTML Tags 를 커스텀 컴포넌트로 override 할 수 있는것.
+
+### Dynamically Loading React Components with next-mdx-remote and Next.js Dynamic imports
+
+- mdx 를 통해 표현해야할 컴포넌트는 계속 늘어날 것.
+- 이걸 다이나믹하게 로딩할 수 있으면 좋을것.
+- next/dynamic 을 사용.
+- 컴포넌트 렌더 시점을 콜백을 통해 관리할 수 있음.
+- 이렇게 해도 되지만 지금은 mdx-elements 의 libs 에 있는걸 다 불러옴. 네트워크 탭에서 mdx-elements 의 preview 에서 보이는 소스에서 확인 가능.
+  - youtube 컴포넌트만 쓰는데 custom link 컴포넌트도 있음.
+- 경로를 좀 더 세밀하게.
+- lib/index.ts 를 활용
+- tsconfig.base.json 에서 경로를 추가
+  ```
+  "@second-wod/shared/mdx-elements/*": [
+          "libs/shared/mdx-elements/src/lib/*"
+        ]
+  ```
+- 이렇게해서 보다 더 다이나믹하게 특정 컴포넌트를 특정해서 가져올 수 있다.
+  ```
+  const components = await import(
+        '@second-wod/shared/mdx-elements/youtube/youtube'
+      );
+  ```
+- 이렇게 경로를 나누고 다시 네트워크 탭에서 mdx-elements 의 preview 소스에서 custom link 를 찾아보면 없다.

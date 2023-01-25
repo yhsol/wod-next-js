@@ -18,6 +18,9 @@
       "@second-wod/markdown": ["libs/markdown/src/index.ts"],
       "@second-wod/shared/mdx-elements": [
         "libs/shared/mdx-elements/src/index.ts"
+      ],
+      "@second-wod/shared/mdx-elements/*": [
+        "libs/shared/mdx-elements/src/lib/*"
       ]
     }
   },
