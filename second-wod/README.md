@@ -295,3 +295,9 @@ Native HTML Tags 를 커스텀 컴포넌트로 override 할 수 있는것.
       );
   ```
 - 이렇게 경로를 나누고 다시 네트워크 탭에서 mdx-elements 의 preview 소스에서 custom link 를 찾아보면 없다.
+
+### Using Environment Variables with Next.js and Nx
+
+- POSTS_PATH 를 하드코딩하고 있음. 구려!
+- nx env 를 써보자.
+- next env 도 좋다.
